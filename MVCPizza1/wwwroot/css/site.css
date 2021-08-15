@@ -1,0 +1,274 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+/*body {*/
+  /* Margin bottom by footer height */
+  /*margin-bottom: 60px;
+}*/
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+
+.BoxIngredients {
+    background-color: #f78162;
+    width: 100%;
+    margin-bottom: 5%;
+/*    height: 500% !important;*/
+    border: 1px solid #ca3309;
+    min-height: 50px;
+    margin-top: 10px;
+    height:90px;
+
+}
+
+.bigbtn {
+    background-color: orangered;
+    font-style: normal;
+    font-weight: 700;
+    font-size: .8rem;
+    color: white;
+    text-transform: uppercase;
+    font-size: .99rem;
+    border: 3px solid #703626;
+    border-radius: 7rem;
+    padding: .2rem .85rem .25rem;
+    position: center;
+    min-height: 10px;
+    min-width: 30px;
+}
+
+.smallbtn {
+    background-color: orangered;
+    font-style: normal;
+    font-size: .8rem;
+    color: white;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #fca993;
+    color: #5d1805;
+    font-family: 'DM Mono', monospace;
+}
+
+a {
+    text-decoration: none;
+}
+
+.card-list {
+    display: flex;
+    padding: 3rem;
+    overflow-x: scroll;
+}
+
+    .card-list::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+/*    .card-list::-webkit-scrollbar-thumb {
+        background: #f78162;
+        border-radius: 5px;
+        box-shadow: inset 2px 2px 2px hsla(13, 20%, 90%,.25), inset -2px -2px 2px rgba(255, 215, 204, .25);
+    }*/
+
+
+
+
+.card {
+    height: 700px;
+    width: 440px;
+    min-width: 270px;
+    max-height: 700px;
+    padding: 1rem;
+    border-radius: 16px;
+    background: #f78162;
+    box-shadow: -1rem 0 1rem #8C493B;
+    display: flex;
+    flex-direction: column;
+    transition: .2s;
+    margin: 0;
+    opacity: 0.9;
+    scroll-snap-align: start;
+    clear: both;
+    position: relative;
+    height: auto;
+}
+
+    .card:focus-within ~ .card, .card:hover ~ .card {
+        transform: translateX(130px);
+    }
+
+    .card:hover {
+        transform: translateY(-1rem);
+    }
+
+    .card:not(:first-child) {
+        margin-left: -130px;
+    }
+
+
+.card-header {
+    margin-bottom: auto;
+}
+
+    .card-header p {
+        font-size: 14px;
+        margin: 0 0 0;
+        color: #ba462a;
+    }
+
+    .card-header h2 {
+        font-size: 20px;
+        margin: 0 0 0;
+        text-decoration: none;
+        color: inherit;
+        border: 0;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+        .card-header h2:hover {
+            background: linear-gradient(90deg,#ff8a00,#e52e71);
+            text-shadow: none;
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+.card-data {
+    margin: 0 0 0;
+    display: grid;
+    grid-template-columns: 120px 120px 120px;
+    align-items: center;
+    position: relative;
+}
+
+
+.data-name {
+    grid-area: auto;
+    box-sizing: border-box;
+}
+
+.data-name-prefix {
+    font-style: normal;
+    font-weight: 700;
+    color: #7a7a8c;
+}
+
+.pizza-img {
+    display: grid;
+    align-items: center;
+    position: relative;
+    max-height: 120px;
+}
+
+.tags {
+    margin: 0 0 0;
+    padding: .5rem 0 .5rem;
+    line-height: 2;
+    margin-bottom: 0;
+}
+
+    .tags a {
+        font-style: normal;
+        font-weight: 700;
+        font-size: .5rem;
+        color: black;
+        text-transform: uppercase;
+        font-size: .66rem;
+        border: 3px solid #703626;
+        border-radius: 2rem;
+        padding: .2rem .85rem .25rem;
+        position: relative;
+    }
+
+        .tags a:hover {
+            background: linear-gradient(90deg,#AD3921,#cf5938);
+            text-shadow: none;
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-box-decoration-break: clone;
+            background-clip: text;
+            border-color: #ca3309;
+        }
+
+
+
+
+.column {
+    max-height:28px;
+    float: left;
+    padding: 10px;
+}
+.columnR {
+    max-height: 28px;
+    padding: 10px;
+}

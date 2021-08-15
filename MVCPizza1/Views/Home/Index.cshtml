@@ -1,0 +1,381 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@using MVCPizza1.Models
+@{
+    var Status = 0;
+}
+
+
+
+<div class="text-center">
+
+    <h1 class="display-4">Welcome. Place Order Here</h1>
+
+</div>
+
+
+<div class="row">
+
+
+
+    <div class="col-md-6">
+
+        <div class="row" style="margin-top:10px">
+            <div class="form-group">
+                <label><b>Recipient's name</b></label>
+                <input type="text" class="form-control" id="nameOrderId" placeholder="recipient">
+
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-top:10px">
+            <div class="form-group">
+                <label><b>Pick Dough</b></label>
+                <div>
+                    @foreach (var c in System.Enum.GetValues(typeof(TipoMasa)))
+                    {
+                        <label>@c</label>
+                        <input type="radio" name="masa" value="@((int)c)" />
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+            <div class="form-group">
+                <label><b>Pick Size</b></label>
+                <div>
+                    @foreach (var c in System.Enum.GetValues(typeof(TipoTamano)))
+                    {
+                        <label>@c</label>
+                        <input type="radio" name="tamano" value="@((int)c)" />
+                    }
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label><b>Pick Ingredients</b></label>
+                    <select asp-items="Html.GetEnumSelectList<Ingredientes>()"
+                            class="form-control" id="selectIngredienteId">
+                        <option selected="selected" value=""> Select </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <button type="button" class="btn smallbtn" id="smallbtn" style="margin-top:30px">Add</button>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label><b>Ingredients</b></label>
+
+                    <div class="col-md-12 BoxIngredients">
+                        <p style="color: floralwhite; word-wrap: break-word;" id="txtIngId"></p>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+        <div class="row">
+
+            <button type="button" class="bigbtn" id="bigbtn">PLACE ORDER</button>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+@*<div class="row">
+
+        <div class="tex" style=" width: 36%; margin: 0 auto;">
+            <button type="button" class="bigbtn" id="bigbtn">PLACE ORDER</button>
+
+        </div>
+
+
+    </div>*@
+
+
+<div class="text-center" style="margin-top:80px">
+
+    <h1 class="display-4">Last Orders</h1>
+
+</div>
+@*<h2 class="display-4" id="textoTest"></h2>*@
+
+@*<a href="#" data-toggle="popover" data-content="Pizza peperoni" class="testpop">{Ingredients}</a>*@
+
+
+
+
+<section class="card-list text-center" id="seccionCarta">
+</section>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        loaddata();
+
+
+        $('a.testpop').on('click', function (e) { e.preventDefault(); return true; });
+
+        $("#bigbtn").click(function () {
+
+            debugger;
+            var ingredientestxt = $("#txtIngId").text();
+            var ordentxt = $("#nameOrderId").val();
+            var radioTamano = $("input[name='masa']:checked").val();
+            var radioMasa = $("input[name='tamano']:checked").val();
+
+
+
+            var data = {
+                TextoOrden: ordentxt
+                , TipoTamano: radioTamano
+                , TipoMasa: radioMasa
+                , Ingredientes: ingredientestxt
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SubirOrden")",
+                data: data,
+                //contentType: "application/json",
+                dataType: "text",
+                success: function (msg) {
+                    //toastr.success("Order placed!", 'Success Alert', new {timeout: 3000});
+                    //alert("order placed");
+                    var elementSection = document.getElementById('seccionCarta');
+                    elementSection.innerHTML = "";
+                    loaddata();
+                },
+                error: function (req, status, error) {
+                    //console.log(msg);
+                }
+            });
+        });
+
+
+        $("#smallbtn").click(function () {
+            var newIng = $("#selectIngredienteId option:selected ").text();
+            var elementVal = $("#selectIngredienteId option:selected ").val();
+
+            if (elementVal != 0) {
+                debugger;
+                var elementIng = document.getElementById('txtIngId');
+                if (elementIng.innerHTML.length > 0) {
+                    elementIng.innerHTML = elementIng.innerHTML + ", " + newIng;
+                } else {
+                    elementIng.innerHTML = elementIng.innerHTML + newIng;
+                }
+            }
+        });
+
+
+        function loaddata() {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("TraerOrdenes")",
+                data: {},
+                dataType: "JSON",
+                success: function (data) {
+
+                    var elementSection = document.getElementById('seccionCarta');
+                    //!= 0
+                    if (data.length != 0) {
+                        $.each(data, function (i, dataI) {
+
+                            stringApp =
+                                '<article class="card">' +
+                                '<header>' +
+                                '<h5>Aug 12th 2021</h5>' +
+                                '<h2>' +  dataI.textoOrden  + '</h2>' +
+                                '</header>' +
+
+                                '<div class="row">' +
+                                '<img class="card-img pizza-img" src="https://www.foodbusinessnews.net/ext/resources/2020/4/TNT2.jpg?1586459854" />' +
+                                '</div>' +
+
+                                '<div class="row">' +
+                                '<div class="col-lg-4">' +
+                                '<div class="column">' +
+                                '<h4>Ingreds:</h4>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="col-lg-8">' +
+                                '<div class="columnR">' +
+
+                            //'<a href="#" data-toggle="popover" data-html="true" class="testpop" data-content="' + dataI.Ingredientes + '">' +
+
+                                '<a data-target="#" data-toggle="popover" data-content="' + dataI.ingredientes + '" class="testpop"><p style="color:blue">{Ingredients}</p></a>' +
+
+
+
+                                '</div>' +
+                                '</div>' +
+
+                                '<div class="col-lg-4">' +
+                                '<div class="column" > ' +
+                                '<h4> Size:</h4 > ' +
+                                '</div > ' +
+                                '</div > ' +
+                                '<div class="col-lg-8">' +
+                                '<div class="columnR">' +
+                                '<h5>' + dataI.nombreTamano   +'</h5>' +
+                                '</div>' +
+                                '</div>' +
+
+                                '<div class="col-lg-4">' +
+                                '<div class="column">' +
+                                '<h4>Dough:</h4>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="col-lg-8">' +
+                                '<div class="columnR">' +
+                                '<h5>' + dataI.nombreMasa + '</h5>' +
+                                '</div>' +
+                                '</div>' +
+
+                                '</div>' +
+
+                                '<div class="tags">' +
+                                '<a href="#">Order again</a>' +
+                                '</div>' +
+                                '</article>';
+                            //element.append(stringApp);
+
+                            elementSection.innerHTML = elementSection.innerHTML + stringApp;
+
+
+                        });
+
+                        $('[data-toggle="popover"]').popover();
+
+
+
+
+                    } else {
+                    }
+                },
+                error: function (req, status, error) {
+                    debugger;
+                    //console.log(msg);
+                }
+            });
+
+
+
+        };
+
+
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+@*
+
+    <article class="card">
+        <header>
+            <h5>Sep 11th 2020</h5>
+            <h2>Orden Pizza familiar</h2>
+        </header>
+
+        <div class="row">
+            <img class="card-img pizza-img" src="https://www.foodbusinessnews.net/ext/resources/2020/4/TNT2.jpg?1586459854" />
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="column">
+                    <h4>Ingreds:</h4>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="columnR">
+                    <a href="#" data-toggle="popover" data-content="Pizza peperoni" class="testpop">{Ingredients}</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="column">
+                    <h4>Size:</h4>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="columnR">
+                    <h5>Large</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="column">
+                    <h4>Dough:</h4>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="columnR">
+                    <h5>Thin</h5>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tags">
+            <a href="#">Order again</a>
+        </div>
+    </article>
+
+
+
+*@
+
+
+
+
+
